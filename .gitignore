@@ -26,6 +26,7 @@ pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .idea/
+*/migrations/*.py
 .installed.cfg
 *.egg
 MANIFEST
@@ -125,6 +126,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
 # database
 *.sqlite3
