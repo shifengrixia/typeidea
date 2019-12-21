@@ -1,10 +1,12 @@
 from django.contrib import admin
-from django.contrib.auth import get_permission_codename
+# from django.contrib.auth import get_permission_codename
+from django.contrib.admin.models import LogEntry
 from django.shortcuts import reverse
 from django.utils.html import format_html
 
 from .adminform import PostAdminForm
 from .models import Category, Tag, Post
+from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
 
 
@@ -30,7 +32,7 @@ class PostInline(admin.TabularInline):
 
 
 @admin.register(Category, site=custom_site)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count')
     fields = ('name', 'status', 'is_nav')
 
@@ -41,23 +43,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
     post_count.short_description = '文章数量'
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(CategoryAdmin, self).save_model(request, obj, form, change)
-
 
 @admin.register(Tag, site=custom_site)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time')
     fields = ('name', 'status')
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(TagAdmin, self).save_model(request, obj, form, change)
-
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
 
     list_display = (
@@ -75,8 +69,6 @@ class PostAdmin(admin.ModelAdmin):
     actions_on_bottom = True
 
     save_on_top = True
-
-    exclude = ('owner',)
 
     # fields = (
     #     ('category', 'title'),
@@ -120,16 +112,13 @@ class PostAdmin(admin.ModelAdmin):
 
     operator.short_description = '操作'
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(PostAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        qs = super(PostAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
-
     class Media:
         css = {
             'all': ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',),
         }
         js = ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.js',)
+
+
+@admin.register(LogEntry, site=custom_site)
+class LogEntryAdmin(admin.ModelAdmin):
+    list_display = ('object_repr', 'object_id', 'action_flag', 'user', 'change_message')
