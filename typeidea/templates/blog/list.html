@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>typeidea 博客系统</title>
+</head>
+<body>
+{% if tag %}
+    标签页：{{ tag.name }}
+{% endif %}
+{% if category %}
+    分类页：{{ category.name }}
+{% endif %}
+<ul>
+    {% for post in post_list %}
+        <li>
+            <a href="/post/{{ post.id }}/">{{ post.title }}</a>
+            <div>
+                <span>作者：{{ post.owner.username }}</span>
+                <span>分类：{{ post.category.name }}</span>
+            </div>
+            <p>{{ post.desc }}</p>
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
