@@ -26,7 +26,7 @@ class Category(models.Model):
 
     @classmethod
     def get_navs(cls):
-        categories = cls.objects.filter(cls.STATUS_NORMAL)
+        categories = cls.objects.filter(status=cls.STATUS_NORMAL)
         nav_categories = []
         normal_categories = []
         for cate in categories:
@@ -112,7 +112,7 @@ class Post(models.Model):
 
     @classmethod
     def latest_posts(cls):
-        queryset = cls.objects.filter(cls.STATUS_NORMAL)
+        queryset = cls.objects.filter(status=cls.STATUS_NORMAL)
         return queryset
 
     @classmethod
