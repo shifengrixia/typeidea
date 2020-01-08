@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load comment_block %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block main %}
     {% if post %}
@@ -14,4 +15,28 @@
             </p>
         </div>
     {% endif %}
+    {% comment_blog request.path %}
+    {#    <hr>#}
+    {#    <div class="comment">#}
+    {#        <form class="form-group" action="{% url 'comment' %}" method="post">#}
+    {#            {% csrf_token %}#}
+    {#            <input type="hidden" name="target" value="{{ request.path }}">#}
+    {#            {{ comment_form }}#}
+    {#            <input type="submit" value="写好了">#}
+    {#        </form>#}
+    {#        <ul class="list-group">#}
+    {#            {% for comment in comment_list %}#}
+    {#                <li class="list-group-item">#}
+    {#                    <div class="nickname">#}
+    {#                        <a href="{{ comment.website }}">{{ comment.nickname }}</a>#}
+    {#                        <span>{{ comment.created_time }}</span>#}
+    {#                    </div>#}
+    {#                    <div class="comment-content">#}
+    {#                        {{ comment.content }}#}
+    {#                    </div>#}
+    {#                </li>#}
+    {#            {% endfor %}#}
+    {##}
+    {#        </ul>#}
+    {#    </div>#}
 {% endblock %}
