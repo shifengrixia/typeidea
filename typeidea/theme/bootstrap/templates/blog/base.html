@@ -14,6 +14,8 @@
             margin-bottom: 5px;
         }
     </style>
+    {% block extra_head %}
+    {% endblock %}
 </head>
 <body>
 <div class="container head">
@@ -65,7 +67,7 @@
             <hr>
             <nav class="nav category">
                 {% for category in categories %}
-                    <a class="nav-link" href="{% url 'category-list' category.id %}">{{ category.id }}</a>
+                    <a class="nav-link" href="{% url 'category-list' category.id %}">{{ category.name }}</a>
                 {% endfor %}
             </nav>
         </div>

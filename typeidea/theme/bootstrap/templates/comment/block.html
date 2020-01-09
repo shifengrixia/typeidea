@@ -4,7 +4,7 @@
         {% csrf_token %}
         <input type="hidden" name="target" value="{{ target }}">
         {{ comment_form }}
-        <input type="submit" value="写好了！">
+        <input class="btn btn-info" type="submit" value="写好了！">
     </form>
     <ul class="list-group">
         {% for comment in comment_list %}
@@ -14,7 +14,9 @@
                     <span>{{ comment.created_time }}</span>
                 </div>
                 <div class="comment-content">
+                    {% autoescape off %}
                     {{ comment.content }}
+                    {% endautoescape %}
                 </div>
             </li>
         {% endfor %}
