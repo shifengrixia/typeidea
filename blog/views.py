@@ -105,7 +105,7 @@ class PostDetailView(CommonViewMixin, DetailView):
         elif increase_pv:
             Post.objects.filter(pk=self.object.id).update(pv=F('pv') + 1)
         elif increase_uv:
-            Post.objects.filter(ps=self.object.id).update(uv=F('uv') + 1)
+            Post.objects.filter(pk=self.object.id).update(uv=F('uv') + 1)
 
 
 class CategoryView(IndexView):
