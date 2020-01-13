@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
 from django.urls import path
+import xadmin
 
 # from blog.views import post_list, post_detail
 from blog.rss import LatestPostFeed
@@ -23,7 +24,8 @@ from blog.sitemap import PostSitemap
 from blog.views import IndexView, PostDetailView, CategoryView, TagView, SearchView
 from comment.views import CommentView
 from config.views import LinkListView
-from .custom_site import custom_site
+
+# from .custom_site import custom_site
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -36,5 +38,5 @@ urlpatterns = [
     path('rss/', LatestPostFeed(), name='rss'),
     path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
     path('super_admin/', admin.site.urls, name='super-admin'),
-    path('admin/', custom_site.urls, name='admin'),
+    path('admin/', xadmin.site.urls, name='admin'),
 ]
