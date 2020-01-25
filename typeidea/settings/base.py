@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'dal',
     'dal_select2',
+    'ckeditor',
+    'ckeditor_uploader',
     'blog.apps.BlogConfig',
     'comment.apps.CommentConfig',
     'config.apps.ConfigConfig',
@@ -123,5 +125,22 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'theme', THEME, 'static'),
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# xadmin配置
 XADMIN_TITLE = 'Typeidea管理后台'
 XADMIN_FOOTER_TITLE = 'power by the5fire.com'
+
+DEFAULT_FILE_STORAGE = 'typide.storage.WatermrskStpry'
+# ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+        'tabSpace': 4,
+        'extraPlugin': 'codesnippet',
+    }
+}
+CKEDITOR_UPLOAD_PATH = 'article_images'

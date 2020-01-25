@@ -7,7 +7,7 @@ import xadmin
 from xadmin.filters import manager, RelatedFieldListFilter
 from xadmin.layout import Row, Fieldset, Container
 
-from .adminform import PostAdminForm
+from .adminforms import PostAdminForm
 from .models import Category, Tag, Post
 from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
@@ -54,7 +54,7 @@ class PostInline:
     model = Post
 
 
-@xadmin.sites.register(Category, site=custom_site)
+@xadmin.sites.register(Category)
 class CategoryAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count')
     fields = ('name', 'status', 'is_nav')
@@ -67,24 +67,24 @@ class CategoryAdmin(BaseOwnerAdmin):
     post_count.short_description = '文章数量'
 
 
-@xadmin.sites.register(Tag, site=custom_site)
+@xadmin.sites.register(Tag)
 class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time')
     fields = ('name', 'status')
 
 
-@xadmin.sites.register(Post, site=custom_site)
+@xadmin.sites.register(Post)
 class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
-
+    autocomplete_fields = ['category', 'tag']
     list_display = (
-        'title', 'category', 'status', 'created_time', 'operator'
+        'title', 'category', 'tag', 'status', 'created_time', 'owner', 'operator'
     )
     list_display_links = []
 
     list_filter = ('category',)
     # filter_vertical = ('tag',)
-    filter_horizontal = ('tag',)
+    # filter_horizontal = ('tag',)
 
     search_fields = ('title', 'category__name')
 
@@ -92,6 +92,8 @@ class PostAdmin(BaseOwnerAdmin):
     actions_on_bottom = True
 
     save_on_top = True
+
+    exclude = ['owner']
 
     form_layout = (
         Fieldset(
@@ -103,6 +105,9 @@ class PostAdmin(BaseOwnerAdmin):
         Fieldset(
             "内容信息",
             "desc",
+            "is_md",
+            "content_ck",
+            "content_md",
             "content"
         )
     )
@@ -151,10 +156,11 @@ class PostAdmin(BaseOwnerAdmin):
     operator.short_description = '操作'
 
     # class Media:
-    #     css = {
-    #         'all': ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',),
-    #     }
-    #     js = ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.js',)
+        # css = {
+        #     'all': ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',),
+        # }
+        # js = ('https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.js',)
+
 
 # @admin.register(LogEntry, site=custom_site)
 # class LogEntryAdmin(admin.ModelAdmin):
